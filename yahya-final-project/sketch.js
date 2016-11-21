@@ -17,7 +17,11 @@ function draw() {
     console.log(speed);
   }
 
-
+  if (frameCount % 20 === 0) {
+    fill(255);
+    noStroke();
+    ellipse(20, 10, width + 20, random(30, 200));
+  }
   //BLUE BACKGROUND
   background(100, 150, 250);
   fill(255);
