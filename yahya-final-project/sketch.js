@@ -34,18 +34,14 @@ function draw() {
     rect(0, player.y, initial -= speed, height);
   }
 
-  //PLAYER
-  noStroke();
-  fill('MAGENTA');
-  rectMode(CORNER);
-  rect(player.x - 10, player.y - 20, 20, 20)
 
   //VECTOR REFERENCE
   stroke(100, 200, 10);
   point(player.x, player.y);
 
-  platforms.push(new Platform(width + 30, speed));
-
+  if (frameCount % 60 === 0) {
+    platforms.push(new Platform(width + 30, speed));
+  }
   for (var i = platforms.length - 1; i >= 0; i--) {
     console.log(platforms[i]);
     var p = platforms[i];
@@ -56,6 +52,11 @@ function draw() {
     }
   }
 
+  //PLAYER
+  noStroke();
+  fill('MAGENTA');
+  rectMode(CORNER);
+  rect(player.x - 10, player.y - 20, 20, 20)
 
 
   //GROUND LINE
