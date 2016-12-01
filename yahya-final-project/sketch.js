@@ -48,7 +48,7 @@ function draw() {
     p.run();
     if (p.isDead()) {
       //remove the particle
-      particles.splice(i, 1);
+      platforms.splice(i, 1);
     }
   }
 

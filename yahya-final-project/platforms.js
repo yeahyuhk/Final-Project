@@ -28,7 +28,7 @@ var Platform = function(previous, speed) {
 
   }
   this.isDead = function() {
-    if (wide < 0.0) {
+    if (this.wide < 0.0) {
       return true;
 
     } else {
