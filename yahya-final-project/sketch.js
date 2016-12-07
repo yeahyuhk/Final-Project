@@ -15,14 +15,12 @@ function setup() {
 function draw() {
 
   //BLUE BACKGROUND
-  background(100, 150, 250);
+  background(70, 100, 210);
   fill(255);
 
-  //INCREASES SPEED
-  if (frameCount % 2 === 0) {
-    speed += .01;
-    console.log(speed);
-  }
+  speed += 0.005
+    //INCREASES SPEED
+
 
   //FIRST GROUND BLOCK
   strokeWeight(2);
@@ -36,14 +34,15 @@ function draw() {
 
 
   //VECTOR REFERENCE
-  stroke(100, 200, 10);
-  point(player.x, player.y);
+  //stroke(100, 200, 10);
+  //point(player.x, player.y);
 
   if (frameCount % 60 === 0) {
     platforms.push(new Platform(width + 30, speed));
   }
+
   for (var i = platforms.length - 1; i >= 0; i--) {
-    console.log(platforms[i]);
+    //console.log(platforms[i]);
     var p = platforms[i];
     p.run();
     if (p.isDead()) {
@@ -59,10 +58,4 @@ function draw() {
   rect(player.x - 10, player.y - 20, 20, 20)
 
 
-  //GROUND LINE
-  /*
-  stroke(255);
-  strokeWeight(1);
-  line(0, player.y, width, player.y);
-  */
 }

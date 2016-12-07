@@ -3,7 +3,7 @@ var Platform = function(previous, speed) {
   this.velocity = speed;
   var position = previous + 30;
   this.last = previous;
-  this.tall = random(300, 400);
+  this.tall = random(260, 450);
   this.wide = random(150, 250);
 
   this.run = function() {
