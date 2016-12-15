@@ -6,8 +6,8 @@ function Player() {
   this.x = 150;
   this.y = 230.0;
   this.contact = false;
-  this.gravity = createVector(0, 0.5);
-  this.velocity = createVector(0.5);
+  this.gravity = createVector(0, 0.6);
+  this.velocity = createVector(0.6);
   this.jumpHeight = 12.0;
   this.alive = true;
   this.max = 1;
