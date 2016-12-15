@@ -1,10 +1,10 @@
 function Platform(previous, initial) {
   this.lifespan = width;
   this.velocity = speed;
-  this.platformStart = previous + speed * (speed + difficulty * 2);
+  this.platformStart = previous + speed * (speed + difficulty * 1.3);
   this.platformHeight = random(250, 390);
   this.platformBottom = random(30, 100);
-  this.platformEnd = this.platformStart + random(210, 270) + ((speed + difficulty) * 15) + initial;
+  this.platformEnd = this.platformStart + random(210, 270) + ((speed + difficulty) * 13) + initial;
 
   this.run = function() {
     this.update();
