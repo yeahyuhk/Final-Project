@@ -22,6 +22,7 @@ function reset() {
   player.y = 230;
   firstRun = 1;
   initial = 1500;
+
   gameOver = false;
   restart = false;
 
@@ -36,8 +37,11 @@ function setup() {
   frameRate(60);
   createCanvas(700, 500);
 
-  initial = 1500;
-
+  if (difficulty == 5) {
+    initial = 2000;
+  } else {
+    initial = 1500;
+  }
   // parameters for first platform
   lastWidth = 40;
 
@@ -59,7 +63,7 @@ function draw() {
 
     if (difficulty == 1) {
       modename = 'EASY';
-    } else if (difficulty == 2) {
+    } else if (difficulty == 3) {
       modename = 'MEDIUM';
     } else {
       modename = 'HARD';
@@ -116,12 +120,13 @@ function newGame() {
       start = true;
     }
     if (mouseY >= 275 && mouseY <= 345) {
-      difficulty = 2;
+      difficulty = 3;
       start = true;
     }
     if (mouseY >= 380 && mouseY <= 450) {
-      difficulty = 3;
+      difficulty = 5;
       start = true;
+      initial = 2000;
     }
   }
 }

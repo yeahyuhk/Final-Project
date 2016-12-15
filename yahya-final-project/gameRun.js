@@ -37,9 +37,7 @@ function gameRun() {
 
   if (platforms.length <= 6) {
     platforms.push(new Platform(lastWidth, initial));
-    if (initial == 1500) {
-      initial = 0;
-    }
+    initial = 0;
   }
 
   //provides previous platform information to next platform
