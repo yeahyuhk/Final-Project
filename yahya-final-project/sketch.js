@@ -1,67 +1,156 @@
-var speed = 1.5; // UNIVERSAL SPEED VARIABLE
-var player;
-var initial;     // WIDTH VALUE FOR FIRST PLATFORM
-var framecount = 0;
-var platforms = [];  // ARRAY FOR STORING NEWLY CREATED PLATFORMS
+var player, calculator, accelerator, modename, initial, gameOver, restart;
+var platforms = [];
+var speed = 4;
+var lastWidth;
+var difficulty = 1;
+var score = 0;
+var time = 3;
+var start = false;
+var firstRun = 1;
+var frameCounter = 0;
+
+
+function reset() {
+  platforms = [];
+  speed = 4;
+  ground = random(260, 500);
+  lastwidth = 70;
+  score = 0;
+  time = 3;
+  start = false;
+  player.alive = true;
+  player.y = 230;
+  firstRun = 1;
+  initial = 1500;
+  gameOver = false;
+  restart = false;
+
+}
+
+function preload() {
+  calculator = loadFont('data/calculator.ttf');
+}
 
 function setup() {
+  textFont(calculator);
   frameRate(60);
   createCanvas(700, 500);
 
-  player = createVector(120, 350);
-  initial = width;
+  initial = 1500;
+
+  // parameters for first platform
+  lastWidth = 40;
+
+  //creates player
+  player = new Player();
+
 }
 
 function draw() {
 
-  //BLUE BACKGROUND
-  background(70, 100, 210);
-  fill(255);
+  if (restart === true) {
+    reset();
+  } else if (player.y >= height - 20) {
+    gameEnd();
+  } else if (start === false && player.alive === true) {
+    newGame();
+  } else {
+    gameRun();
 
-  speed += 0.005   //CONSTANTLY INCREASES UNIVERSAL SPEED VARIABLE
+    if (difficulty == 1) {
+      modename = 'EASY';
+    } else if (difficulty == 2) {
+      modename = 'MEDIUM';
+    } else {
+      modename = 'HARD';
+    }
 
-  // APPEARANCE FOR PLATFORMS // GREEN
-  strokeWeight(2);
-  stroke(60, 180, 50);
-  fill(100, 220, 80);
-  rectMode(CORNERS);
-
-  // DISPLAYS FIRST PLATFORM BLOCK UNTIL IT GOES OFF SCREEN (initial is width)
-  if (initial >= 0) {  
-    rect(0, player.y, initial -= speed, height);
   }
+}
 
-  //VECTOR REFERENCE
-  //stroke(100, 200, 10);
-  //point(player.x, player.y);
-
-
-  // currently, I'm having trouble with this
-  // I want the platforms to show up faster over time using SPEED
-  // rather than be created a constant rate
-  
-  if (frameCount % 60 === 0) {  // NEW PLATFORM IS CREATED AT THIS RATE
-    platforms.push(new Platform(width + 30, speed));  // NEW PLATFORM IS ADDED TO PLATFORM ARRAY
-  }                                                   // WITH CURRENT SPEED
-                                                      // i want this speed to change over time
- 
-  // taken from particle examples on github
-  for (var i = platforms.length - 1; i >= 0; i--) {
-  
-    var p = platforms[i];
-    p.run();
-    
-    if (p.isDead()) {
-      //remove the particle
-      platforms.splice(i, 1);
+//JUMP CONTROLS 
+function keyPressed() {
+  if (key === ' ' || keyCode === UP_ARROW) {
+    if (start === true && player.alive === true) {
+      player.jump();
+    } else if (gameOver === true) {
+      restart = true;
     }
   }
+}
 
-  //PLAYER
-  noStroke();
-  fill('MAGENTA');
+
+function newGame() {
+
+  //MAIN MENU AND GAME MODES
+  background(0);
+  textSize(85);
+  fill(255);
+  textAlign(CENTER);
+  text("VECTOR RUN", width / 2, height / 4);
   rectMode(CORNER);
-  rect(player.x - 10, player.y - 20, 20, 20)
+
+  noFill();
+  textSize(40);
+  stroke(40, 180, 250);
+  rect(200, 170, 300, 70);
+  fill(255);
+  text('EASY', width / 2, 215);
+
+  noFill();
+  stroke(50, 170, 50);
+  rect(200, 275, 300, 70);
+  fill(255);
+  text('MEDIUM', width / 2, 320);
+
+  noFill();
+  stroke('red');
+  rect(200, 380, 300, 70);
+  fill(255);
+  text('HARD', width / 2, 425);
+
+  //MODE SELECT
+  if (mouseIsPressed && (mouseX >= 200 && mouseX <= 500)) {
+    if (mouseY >= 170 && mouseY <= 240) {
+      difficulty = 1;
+      start = true;
+    }
+    if (mouseY >= 275 && mouseY <= 345) {
+      difficulty = 2;
+      start = true;
+    }
+    if (mouseY >= 380 && mouseY <= 450) {
+      difficulty = 3;
+      start = true;
+    }
+  }
+}
 
 
+function gameEnd() {
+  background(250, 50, 50, 15);
+  textAlign(CENTER);
+  textSize(70);
+  fill(255);
+  noStroke();
+  text("YOU DIED", width / 2, height / 4);
+
+  //restart button
+  noFill();
+  stroke(255);
+  rect(200, 345, 300, 40);
+  noStroke();
+  fill(255);
+  textSize(25);
+  text('RESTART', width / 2, 370);
+
+  textSize(50);
+  text("Score: " + score + " seconds", width / 2, (height / 2));
+  text("Mode: " + modename, width / 2, (height / 2) - 50);
+  gameOver = true;
+
+  if (mouseIsPressed && gameOver === true) {
+    restart = true;
+    gameOver = false;
+  }
 }

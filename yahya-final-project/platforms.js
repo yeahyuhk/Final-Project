@@ -1,10 +1,10 @@
-var Platform = function(previous, speed) {
+function Platform(previous, initial) {
   this.lifespan = width;
   this.velocity = speed;
-  var position = previous + 30;
-  this.last = previous;
-  this.tall = random(260, 450);
-  this.wide = random(150, 250);
+  this.platformStart = previous + speed * (difficulty * 2);
+  this.platformHeight = random(250, 390);
+  this.platformBottom = random(30, 100);
+  this.platformEnd = this.platformStart + random(210, 270) + (speed - 4) * 12 + difficulty * 20 + initial;
 
   this.run = function() {
     this.update();
@@ -12,25 +12,21 @@ var Platform = function(previous, speed) {
   };
 
   this.update = function() {
-    //console.log('position is: ', position);
-    // console.log('speed is : ', speed);
-    position += (speed);
     this.lifespan -= speed;
-
   }
 
   this.display = function() {
-    strokeWeight(2);
-    stroke(60, 180, 50);
-    fill(100, 220, 80);
+
+    fill(255, this.platformEnd-20);
+    stroke(255, this.platformEnd+20);
+    strokeWeight(3);
     rectMode(CORNERS);
-    rect(width - position, this.tall, this.wide -= speed, height);
+    rect(this.platformStart -= speed, this.platformHeight, this.platformEnd -= speed, this.platformHeight + this.platformBottom);
 
   }
   this.isDead = function() {
-    if (this.wide < 0.0) {
+    if (this.platformEnd < 0) {
       return true;
-
     } else {
       return false;
     }
