@@ -1,7 +1,9 @@
-var player, calculator, accelerator, modename, initial, gameOver, restart;
+var player, calculator, accelerator, modename, initial, initial2, gameOver, restart;
 var platforms = [];
+var landscapes = [];
+var landscapes2 = [];
 var speed = 4;
-var lastWidth;
+var lastWidth, lastWidth2;
 var difficulty = 1;
 var score = 0;
 var time = 3;
@@ -12,9 +14,13 @@ var frameCounter = 0;
 
 function reset() {
   platforms = [];
+  landscapes = [];
+  landscapes2 = [];
   speed = 4;
   ground = random(260, 500);
-  lastwidth = 70;
+  lastWidth = 70;
+  lastWidth2 = 70;
+  lastwidth3 = 70;
   score = 0;
   time = 3;
   start = false;
@@ -22,6 +28,8 @@ function reset() {
   player.y = 230;
   firstRun = 1;
   initial = 1500;
+  initial2 = 1500;
+  initial3 = 1500;
 
   gameOver = false;
   restart = false;
@@ -35,7 +43,8 @@ function preload() {
 function setup() {
   textFont(calculator);
   frameRate(60);
-  createCanvas(700, 500);
+  //  createCanvas(700, 500);
+  createCanvas(windowWidth, windowHeight);
 
   if (difficulty == 5) {
     initial = 2000;
@@ -44,6 +53,8 @@ function setup() {
   }
   // parameters for first platform
   lastWidth = 40;
+  lastWidth2 = 40;
+  lastWidth3 = 40;
 
   //creates player
   player = new Player();
@@ -54,7 +65,7 @@ function draw() {
 
   if (restart === true) {
     reset();
-  } else if (player.y >= height - 20) {
+  } else if (player.y >= 570) {
     gameEnd();
   } else if (start === false && player.alive === true) {
     newGame();
@@ -91,39 +102,50 @@ function newGame() {
   textSize(85);
   fill(255);
   textAlign(CENTER);
-  text("VECTOR RUN", width / 2, height / 4);
-  rectMode(CORNER);
+  text("VECTOR RUN", width / 2, 100);
+  rectMode(CENTER);
 
   noFill();
   textSize(40);
   stroke(40, 180, 250);
-  rect(200, 170, 300, 70);
+  rect(width / 2, 170, 300, 70);
   fill(255);
-  text('EASY', width / 2, 215);
+  text('EASY', width / 2, 180);
 
   noFill();
   stroke(50, 170, 50);
-  rect(200, 275, 300, 70);
+  rect(width / 2, 275, 300, 70);
   fill(255);
-  text('MEDIUM', width / 2, 320);
+  text('MEDIUM', width / 2, 285);
 
   noFill();
   stroke('red');
-  rect(200, 380, 300, 70);
+  rect(width / 2, 380, 300, 70);
   fill(255);
-  text('HARD', width / 2, 425);
+  text('HARD', width / 2, 390);
+
+  if (windowHeight < 400) {
+    rectMode(CORNER);
+    noStroke();
+    fill(0, 150);
+    rect(0, 0, width, height);
+    stroke(255);
+    fill(255);
+    textSize(55);
+    text('Window is too small!', width / 2, height / 2);
+  }
 
   //MODE SELECT
-  if (mouseIsPressed && (mouseX >= 200 && mouseX <= 500)) {
-    if (mouseY >= 170 && mouseY <= 240) {
+  if (mouseIsPressed && (mouseX >= (width / 2 - 150) && mouseX <= (width / 2 + 150))) {
+    if (mouseY >= 135 && mouseY <= 205) {
       difficulty = 1;
       start = true;
     }
-    if (mouseY >= 275 && mouseY <= 345) {
+    if (mouseY >= 240 && mouseY <= 310) {
       difficulty = 3;
       start = true;
     }
-    if (mouseY >= 380 && mouseY <= 450) {
+    if (mouseY >= 345 && mouseY <= 425) {
       difficulty = 5;
       start = true;
       initial = 2000;
@@ -131,9 +153,8 @@ function newGame() {
   }
 }
 
-
 function gameEnd() {
-  background(250, 50, 50, 15);
+  background(240, 10, 255, 15);
   textAlign(CENTER);
   textSize(70);
   fill(255);
@@ -141,13 +162,14 @@ function gameEnd() {
   text("YOU DIED", width / 2, height / 4);
 
   //restart button
+  rectMode(CENTER);
   noFill();
   stroke(255);
-  rect(200, 345, 300, 40);
+  rect(width / 2, 3.5 * height / 4, 300, 40);
   noStroke();
   fill(255);
   textSize(25);
-  text('RESTART', width / 2, 370);
+  text('RESTART', width / 2, 3.55 * height / 4);
 
   textSize(50);
   text("Score: " + score + " seconds", width / 2, (height / 2));

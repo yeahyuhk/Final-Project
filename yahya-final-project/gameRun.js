@@ -1,5 +1,37 @@
 function gameRun() {
 
+
+  background(70, 0, 100);
+
+  // FOR PARALLAX BACKGROUND EFFECT
+  // farthest background shapes
+  if (landscapes2.length <= 6) {
+    landscapes2.push(new landscape(lastWidth2 + 20, 50, 25, random(-100, -50), 5));
+  }
+  lastWidth3 = landscapes2[landscapes2.length - 1].platformEnd + random(80, 150);
+  for (var b = landscapes2.length - 1; b >= 0; b--) {
+    var l2 = landscapes2[b];
+    l2.run();
+    if (l2.isDead()) {
+      //remove the particle
+      landscapes2.splice(b, 1);
+    }
+  }
+  
+  // middle background shapes 
+  if (landscapes.length <= 6) {
+    landscapes.push(new landscape(lastWidth2, 50, 50, 40, 2.5));
+  }
+  lastWidth2 = landscapes[landscapes.length - 1].platformEnd + random(80, 150);
+  for (var j = landscapes.length - 1; j >= 0; j--) {
+    var l = landscapes[j];
+    l.run();
+    if (l.isDead()) {
+      //remove the particle
+      landscapes.splice(j, 1);
+    }
+  }
+
   if (firstRun == 1) {
     setup();
     speed += difficulty;
@@ -7,15 +39,8 @@ function gameRun() {
     accelerator = difficulty / 1000;
     frameCounter = 0;
   }
-  frameCounter += 1;
-
-  //BLUE BACKGROUND
-  background(10, 80);
-  // background(50, 100, 200);
-  fill(255);
-  strokeWeight(4);
-
   speed += 0.002 + accelerator //CONSTANTLY INCREASES UNIVERSAL SPEED VARIABLE
+  frameCounter += 1;
 
   //SCORE BOARD
   textAlign(LEFT);
@@ -80,6 +105,7 @@ function gameRun() {
   if (mouseIsPressed) {
     player.jump();
   }
+  
   //starts afer 3 seconds
   if (frameCounter >= 175) {
     //initiates player
@@ -89,4 +115,5 @@ function gameRun() {
       score += .25;
     }
   }
+
 }
